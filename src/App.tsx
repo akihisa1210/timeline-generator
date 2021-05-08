@@ -1,5 +1,5 @@
 import React, { FC, useState, ChangeEvent } from "react";
-import Canvas from "canvas/canvas";
+import Canvas from "components/Canvas";
 
 const App: FC = () => {
   const [value, setValue] = useState("Hello world!");
