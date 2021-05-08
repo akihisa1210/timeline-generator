@@ -2,15 +2,10 @@ import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
 import yaml from "js-yaml";
+import { timelineItem } from "timeline";
 
 type Props = {
   text: string;
-};
-
-type timelineItem = {
-  label: string;
-  start: number;
-  end: number;
 };
 
 const Canvas: FC<Props> = ({ text }) => {
