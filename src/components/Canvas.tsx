@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
+import yaml from "js-yaml";
 
 type Props = {
   text: string;
@@ -16,43 +17,8 @@ const Canvas: FC<Props> = ({ text }) => {
   const width = 1000;
   const height = 640;
 
-  const timeline: timelineItem[] = [
-    {
-      label: "A",
-      start: 1915,
-      end: 1980,
-    },
-    {
-      label: "B",
-      start: 1926,
-      end: 1984,
-    },
-    {
-      label: "C",
-      start: 1916,
-      end: 1996,
-    },
-    {
-      label: "D",
-      start: 1901,
-      end: 1981,
-    },
-    {
-      label: "E",
-      start: 1930,
-      end: 2004,
-    },
-    {
-      label: "F",
-      start: 1896,
-      end: 1982,
-    },
-    {
-      label: "G",
-      start: 1932,
-      end: 2016,
-    },
-  ];
+  const timeline = yaml.load(text) as timelineItem[];
+  console.log(timeline); // debug
 
   const setup = (p: p5, canvasParentRef: Element) => {
     p.createCanvas(width, height).parent(canvasParentRef);
@@ -95,7 +61,6 @@ const Canvas: FC<Props> = ({ text }) => {
       p.text(item.end, end, y + 10);
       p.line(start, y, end, y);
     });
-    p.text(text, 200, 200);
   };
 
   return <Sketch setup={setup} />;
