@@ -9,7 +9,7 @@ type Props = {
 };
 
 const Canvas: FC<Props> = ({ text }) => {
-  const width = 1000;
+  const width = 640;
   const height = 640;
 
   const timeline = yaml.load(text) as timelineItem[];
@@ -39,7 +39,7 @@ const Canvas: FC<Props> = ({ text }) => {
     p.background(240);
 
     timeline.forEach((item, index) => {
-      const y = 15 + index * 20;
+      const y = 30 + index * 30;
       const start = p.map(
         item.start,
         minStartItem.start,

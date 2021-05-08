@@ -4,12 +4,27 @@ import yaml from "js-yaml";
 import Ajv from "ajv";
 
 const App: FC = () => {
-  const [value, setValue] = useState(`- label: A
-  start: 1915
-  end: 1980
-- label: B
-  start: 1926
-  end: 1984`);
+  const [value, setValue] = useState(`- label: アン（スチュアート朝）
+  start: 1707
+  end: 1714
+- label: ジョージ1世（ハノーヴァー朝）
+  start: 1714
+  end: 1727
+- label: ジョージ2世（ハノーヴァー朝）
+  start: 1727
+  end: 1760
+- label: ジョージ3世（ハノーヴァー朝）
+  start: 1760
+  end: 1820
+- label: ジョージ4世（ハノーヴァー朝）
+  start: 1820
+  end: 1830
+- label: ウィリアム4世（ハノーヴァー朝）
+  start: 1830
+  end: 1837
+- label: ヴィクトリア（ハノーヴァー朝）
+  start: 1837
+  end: 1901`);
 
   const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);
@@ -52,25 +67,39 @@ const App: FC = () => {
 
   if (isYamlValid(value)) {
     return (
-      <div>
-        <div>Hello world!</div>
-        <Canvas text={value} />
-        <textarea
-          value={value}
-          onChange={handleCange}
-          className="font-mono h-60 w-60"
-        ></textarea>
-      </div>
+      <>
+        <nav id="header" className="bg-gray-800">
+          <div className="text-gray-100 font-bold text-xl pl-10 py-2">
+            Timeline Generator
+          </div>
+        </nav>
+        <div className="container w-full mx-auto">
+          <div className="flex">
+            <div className="w-1/2">
+              <textarea
+                value={value}
+                onChange={handleCange}
+                className="font-mono h-full w-full"
+              ></textarea>
+            </div>
+            <div className="w-1/2">
+              <Canvas text={value} />
+            </div>
+          </div>
+        </div>
+      </>
     );
   } else {
     return (
-      <div>
-        <div>YAML is not valid</div>
-        <textarea
-          value={value}
-          onChange={handleCange}
-          className="font-mono h-60 w-60"
-        ></textarea>
+      <div className="flex">
+        <div className="w-1/2">
+          <textarea
+            value={value}
+            onChange={handleCange}
+            className="font-mono h-60 w-60"
+          ></textarea>
+        </div>
+        <div className="w-1/2"></div>
       </div>
     );
   }
