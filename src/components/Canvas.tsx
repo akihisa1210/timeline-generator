@@ -22,9 +22,10 @@ const Canvas: FC<Props> = ({ text }) => {
 
   const setup = (p: p5, canvasParentRef: Element) => {
     p.createCanvas(width, height).parent(canvasParentRef);
-    p.background(200);
     p.smooth();
+  };
 
+  const draw = (p: p5) => {
     const minStartItem = timeline.reduce((a, b) => {
       if (a.start <= b.start) {
         return a;
@@ -38,6 +39,9 @@ const Canvas: FC<Props> = ({ text }) => {
       return a;
     });
     console.log(minStartItem.start, maxEndItem.end); // debug
+
+    p.clear();
+    p.background(240);
 
     timeline.forEach((item, index) => {
       const y = 15 + index * 20;
@@ -63,7 +67,7 @@ const Canvas: FC<Props> = ({ text }) => {
     });
   };
 
-  return <Sketch setup={setup} />;
+  return <Sketch setup={setup} draw={draw} />;
 };
 
 export default Canvas;
