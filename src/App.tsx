@@ -1,5 +1,4 @@
 import React, { FC, useState, ChangeEvent } from "react";
-import sketch from "sketch/circle";
 import Canvas from "canvas/canvas";
 
 const App: FC = () => {
@@ -12,7 +11,7 @@ const App: FC = () => {
   return (
     <div>
       <div>Hello world!</div>
-      <Canvas sketch={sketch} />
+      <Canvas text={value} />
       <textarea value={value} onChange={handleCange}></textarea>
     </div>
   );
