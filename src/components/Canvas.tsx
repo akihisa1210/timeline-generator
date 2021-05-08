@@ -10,8 +10,8 @@ const Canvas: FC<Props> = ({ text }) => {
   const width = 500;
   const height = 300;
 
-  const setup = (p: p5) => {
-    p.createCanvas(width, height);
+  const setup = (p: p5, canvasParentRef: Element) => {
+    p.createCanvas(width, height).parent(canvasParentRef);
   };
 
   const draw = (p: p5) => {
