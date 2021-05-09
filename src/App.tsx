@@ -52,7 +52,7 @@ const App: FC = () => {
   return (
     <>
       <nav id="header" className="bg-gray-800">
-        <div className="text-gray-100 font-bold text-xl pl-10 py-2">
+        <div className="text-gray-100 font-logo text-3xl pl-10 py-2">
           Timeline Generator
         </div>
       </nav>

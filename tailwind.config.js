@@ -14,6 +14,7 @@ module.exports = {
         "Arial",
         "sans-serif",
       ],
+      logo: ["Raleway"],
     },
     extend: {},
   },
