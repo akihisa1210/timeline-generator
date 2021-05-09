@@ -1,7 +1,11 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState } from "react";
 import Canvas from "components/Canvas";
 import { TimelineState, TimelineSort, isYamlValid } from "util/timeline";
 import SortButton from "components/SortButton";
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-yaml";
+import "ace-builds/src-noconflict/theme-github";
 
 const App: FC = () => {
   const [value, setValue] = useState<TimelineState>({
@@ -30,11 +34,11 @@ const App: FC = () => {
     sort: "default",
   });
 
-  const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCange = (newValue: string) => {
     setValue({
       ...value,
-      timelineInput: event.target.value,
-      isInputValid: isYamlValid(event.target.value),
+      timelineInput: newValue,
+      isInputValid: isYamlValid(newValue),
     });
   };
 
@@ -48,42 +52,44 @@ const App: FC = () => {
   return (
     <>
       <nav id="header" className="bg-gray-800">
-        <div className="text-gray-100 font-bold text-xl pl-10 py-2">
+        <div className="text-gray-100 font-logo text-3xl pl-10 py-2">
           Timeline Generator
         </div>
       </nav>
-      <SortButton
-        label="Default"
-        clickHandler={() => handleSort("default")}
-      ></SortButton>
-      <SortButton
-        label="start ASC"
-        clickHandler={() => handleSort("start ASC")}
-      ></SortButton>
-      <SortButton
-        label="start DESC"
-        clickHandler={() => handleSort("start DESC")}
-      ></SortButton>
-      <SortButton
-        label="end ASC"
-        clickHandler={() => handleSort("end ASC")}
-      ></SortButton>
-      <SortButton
-        label="end DESC"
-        clickHandler={() => handleSort("end DESC")}
-      ></SortButton>
-      <div className="container w-full mx-auto">
-        <div className="flex">
-          <div className="w-1/2">
-            <textarea
-              value={value.timelineInput}
-              onChange={handleCange}
-              className="font-mono h-full w-full"
-            ></textarea>
+      <div className="container w-full mx-auto flex">
+        <div className="flex mx-auto mt-2">
+          <div className="flex flex-col">
+            <SortButton
+              label="Default"
+              clickHandler={() => handleSort("default")}
+            ></SortButton>
+            <SortButton
+              label="start ASC"
+              clickHandler={() => handleSort("start ASC")}
+            ></SortButton>
+            <SortButton
+              label="start DESC"
+              clickHandler={() => handleSort("start DESC")}
+            ></SortButton>
+            <SortButton
+              label="end ASC"
+              clickHandler={() => handleSort("end ASC")}
+            ></SortButton>
+            <SortButton
+              label="end DESC"
+              clickHandler={() => handleSort("end DESC")}
+            ></SortButton>
           </div>
-          <div className="w-1/2">
-            <Canvas timelineState={value} />
-          </div>
+          <AceEditor
+            mode="yaml"
+            theme="github"
+            value={value.timelineInput}
+            onChange={handleCange}
+            width="640px"
+            height="640px"
+            fontSize="14px"
+          ></AceEditor>
+          <Canvas timelineState={value} />
         </div>
       </div>
     </>
