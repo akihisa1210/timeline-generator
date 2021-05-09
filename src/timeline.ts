@@ -13,5 +13,6 @@ export type TimelineSort =
 
 export type TimelineState = {
   timelineInput: string;
+  isInputValid: boolean;
   sort: TimelineSort;
 };

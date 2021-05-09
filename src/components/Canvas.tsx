@@ -29,6 +29,9 @@ const sortTimeline = (
 };
 
 const Canvas: FC<Props> = ({ timelineState }) => {
+  if (!timelineState.isInputValid) {
+    return <div></div>;
+  }
   const width = 640;
   const height = 640;
 

@@ -27,11 +27,16 @@ const App: FC = () => {
 - label: ヴィクトリア（ハノーヴァー朝）
   start: 1837
   end: 1901`,
+    isInputValid: true,
     sort: "default",
   });
 
   const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue({ ...value, timelineInput: event.target.value });
+    setValue({
+      ...value,
+      timelineInput: event.target.value,
+      isInputValid: isYamlValid(event.target.value),
+    });
   };
 
   const ajv = new Ajv();
@@ -69,44 +74,29 @@ const App: FC = () => {
     return true;
   };
 
-  if (isYamlValid(value.timelineInput)) {
-    return (
-      <>
-        <nav id="header" className="bg-gray-800">
-          <div className="text-gray-100 font-bold text-xl pl-10 py-2">
-            Timeline Generator
+  return (
+    <>
+      <nav id="header" className="bg-gray-800">
+        <div className="text-gray-100 font-bold text-xl pl-10 py-2">
+          Timeline Generator
+        </div>
+      </nav>
+      <div className="container w-full mx-auto">
+        <div className="flex">
+          <div className="w-1/2">
+            <textarea
+              value={value.timelineInput}
+              onChange={handleCange}
+              className="font-mono h-full w-full"
+            ></textarea>
           </div>
-        </nav>
-        <div className="container w-full mx-auto">
-          <div className="flex">
-            <div className="w-1/2">
-              <textarea
-                value={value.timelineInput}
-                onChange={handleCange}
-                className="font-mono h-full w-full"
-              ></textarea>
-            </div>
-            <div className="w-1/2">
-              <Canvas timelineState={value} />
-            </div>
+          <div className="w-1/2">
+            <Canvas timelineState={value} />
           </div>
         </div>
-      </>
-    );
-  } else {
-    return (
-      <div className="flex">
-        <div className="w-1/2">
-          <textarea
-            value={value.timelineInput}
-            onChange={handleCange}
-            className="font-mono h-60 w-60"
-          ></textarea>
-        </div>
-        <div className="w-1/2"></div>
       </div>
-    );
-  }
+    </>
+  );
 };
 
 export default App;
