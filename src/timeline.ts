@@ -1,4 +1,4 @@
-export type timelineItem = {
+export type TimelineItem = {
   label: string;
   start: number;
   end: number;

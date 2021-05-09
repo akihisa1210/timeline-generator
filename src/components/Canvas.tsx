@@ -2,16 +2,16 @@ import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
 import yaml from "js-yaml";
-import { timelineItem, TimelineSort, TimelineState } from "timeline";
+import { TimelineItem, TimelineSort, TimelineState } from "timeline";
 
 type Props = {
   timelineState: TimelineState;
 };
 
 const sortTimeline = (
-  timelineItems: timelineItem[],
+  timelineItems: TimelineItem[],
   option: TimelineSort
-): timelineItem[] => {
+): TimelineItem[] => {
   switch (option) {
     case "start ASC":
       return timelineItems.sort((a, b) => (a.start <= b.start ? -1 : 1));
@@ -32,7 +32,7 @@ const Canvas: FC<Props> = ({ timelineState }) => {
   const width = 640;
   const height = 640;
 
-  const timeline = yaml.load(timelineState.timelineInput) as timelineItem[];
+  const timeline = yaml.load(timelineState.timelineInput) as TimelineItem[];
   console.log(timeline); // debug
 
   const setup = (p: p5, canvasParentRef: Element) => {
