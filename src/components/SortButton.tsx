@@ -9,7 +9,7 @@ const SortButton: FC<Props> = ({ label, clickHandler }) => {
   return (
     <button
       onClick={clickHandler}
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-1 mx-1 rounded"
+      className="bg-gray-500 hover:bg-gray-700 text-white whitespace-nowrap font-bold py-2 px-4 my-1 mx-1 rounded"
     >
       {label}
     </button>

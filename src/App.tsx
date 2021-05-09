@@ -56,42 +56,40 @@ const App: FC = () => {
           Timeline Generator
         </div>
       </nav>
-      <SortButton
-        label="Default"
-        clickHandler={() => handleSort("default")}
-      ></SortButton>
-      <SortButton
-        label="start ASC"
-        clickHandler={() => handleSort("start ASC")}
-      ></SortButton>
-      <SortButton
-        label="start DESC"
-        clickHandler={() => handleSort("start DESC")}
-      ></SortButton>
-      <SortButton
-        label="end ASC"
-        clickHandler={() => handleSort("end ASC")}
-      ></SortButton>
-      <SortButton
-        label="end DESC"
-        clickHandler={() => handleSort("end DESC")}
-      ></SortButton>
-      <div className="container w-full mx-auto">
-        <div className="flex">
-          <div className="w-1/2">
-            <AceEditor
-              mode="yaml"
-              theme="github"
-              value={value.timelineInput}
-              onChange={handleCange}
-              width="640px"
-              height="640px"
-              fontSize="14px"
-            ></AceEditor>
+      <div className="container w-full mx-auto flex">
+        <div className="flex mx-auto mt-2">
+          <div className="flex flex-col">
+            <SortButton
+              label="Default"
+              clickHandler={() => handleSort("default")}
+            ></SortButton>
+            <SortButton
+              label="start ASC"
+              clickHandler={() => handleSort("start ASC")}
+            ></SortButton>
+            <SortButton
+              label="start DESC"
+              clickHandler={() => handleSort("start DESC")}
+            ></SortButton>
+            <SortButton
+              label="end ASC"
+              clickHandler={() => handleSort("end ASC")}
+            ></SortButton>
+            <SortButton
+              label="end DESC"
+              clickHandler={() => handleSort("end DESC")}
+            ></SortButton>
           </div>
-          <div className="w-1/2">
-            <Canvas timelineState={value} />
-          </div>
+          <AceEditor
+            mode="yaml"
+            theme="github"
+            value={value.timelineInput}
+            onChange={handleCange}
+            width="640px"
+            height="640px"
+            fontSize="14px"
+          ></AceEditor>
+          <Canvas timelineState={value} />
         </div>
       </div>
     </>
