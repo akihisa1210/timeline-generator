@@ -1,7 +1,11 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState } from "react";
 import Canvas from "components/Canvas";
 import { TimelineState, TimelineSort, isYamlValid } from "util/timeline";
 import SortButton from "components/SortButton";
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-yaml";
+import "ace-builds/src-noconflict/theme-github";
 
 const App: FC = () => {
   const [value, setValue] = useState<TimelineState>({
@@ -30,11 +34,11 @@ const App: FC = () => {
     sort: "default",
   });
 
-  const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCange = (newValue: string) => {
     setValue({
       ...value,
-      timelineInput: event.target.value,
-      isInputValid: isYamlValid(event.target.value),
+      timelineInput: newValue,
+      isInputValid: isYamlValid(newValue),
     });
   };
 
@@ -75,11 +79,15 @@ const App: FC = () => {
       <div className="container w-full mx-auto">
         <div className="flex">
           <div className="w-1/2">
-            <textarea
+            <AceEditor
+              mode="yaml"
+              theme="github"
               value={value.timelineInput}
               onChange={handleCange}
-              className="font-mono h-full w-full"
-            ></textarea>
+              width="640px"
+              height="640px"
+              fontSize="14px"
+            ></AceEditor>
           </div>
           <div className="w-1/2">
             <Canvas timelineState={value} />
