@@ -4,6 +4,14 @@ export type timelineItem = {
   end: number;
 };
 
+export type TimelineSort =
+  | "default"
+  | "start ASC"
+  | "start DESC"
+  | "end ASC"
+  | "end DESC";
+
 export type TimelineState = {
   timelineInput: string;
+  sort: TimelineSort;
 };

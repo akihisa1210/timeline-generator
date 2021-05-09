@@ -27,10 +27,11 @@ const App: FC = () => {
 - label: ヴィクトリア（ハノーヴァー朝）
   start: 1837
   end: 1901`,
+    sort: "default",
   });
 
   const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue({ timelineInput: event.target.value });
+    setValue({ ...value, timelineInput: event.target.value });
   };
 
   const ajv = new Ajv();
@@ -86,7 +87,7 @@ const App: FC = () => {
               ></textarea>
             </div>
             <div className="w-1/2">
-              <Canvas text={value.timelineInput} />
+              <Canvas timelineState={value} />
             </div>
           </div>
         </div>

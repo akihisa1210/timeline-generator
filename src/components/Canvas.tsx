@@ -2,17 +2,37 @@ import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
 import yaml from "js-yaml";
-import { timelineItem } from "timeline";
+import { timelineItem, TimelineSort, TimelineState } from "timeline";
 
 type Props = {
-  text: string;
+  timelineState: TimelineState;
 };
 
-const Canvas: FC<Props> = ({ text }) => {
+const sortTimeline = (
+  timelineItems: timelineItem[],
+  option: TimelineSort
+): timelineItem[] => {
+  switch (option) {
+    case "start ASC":
+      return timelineItems.sort((a, b) => (a.start <= b.start ? -1 : 1));
+    case "start DESC":
+      return timelineItems.sort((a, b) => (a.start <= b.start ? 1 : -1));
+    case "end ASC":
+      return timelineItems.sort((a, b) => (a.end <= b.end ? -1 : 1));
+    case "end DESC":
+      return timelineItems.sort((a, b) => (a.end <= b.end ? 1 : -1));
+    case "default":
+      return timelineItems;
+    default:
+      return timelineItems;
+  }
+};
+
+const Canvas: FC<Props> = ({ timelineState }) => {
   const width = 640;
   const height = 640;
 
-  const timeline = yaml.load(text) as timelineItem[];
+  const timeline = yaml.load(timelineState.timelineInput) as timelineItem[];
   console.log(timeline); // debug
 
   const setup = (p: p5, canvasParentRef: Element) => {
@@ -38,7 +58,9 @@ const Canvas: FC<Props> = ({ text }) => {
     p.clear();
     p.background(240);
 
-    timeline.forEach((item, index) => {
+    const sortedTimeline = sortTimeline(timeline, timelineState.sort);
+
+    sortedTimeline.forEach((item, index) => {
       const y = 30 + index * 30;
       const start = p.map(
         item.start,
