@@ -1,4 +1,4 @@
-import { sortTimeline } from "util/timeline";
+import { sortTimeline, isYamlValid } from "util/timeline";
 
 describe("sortTimeline", () => {
   it("doesn't sort by default", () => {
@@ -76,5 +76,41 @@ describe("sortTimeline", () => {
     expect(endAscTimeline[0].label).toEqual("A");
     const endDescTimeline = sortTimeline(timeline, "end DESC");
     expect(endDescTimeline[0].label).toEqual("A");
+  });
+});
+
+describe("isYamlValid", () => {
+  it("return true if YAML is valid", () => {
+    const validYaml = `- label: A
+  start: 1707
+  end: 1714
+- label: B
+  start: 1714
+  end: 1727
+- label: C
+  start: 1727
+  end: 1760`;
+    expect(isYamlValid(validYaml)).toEqual(true);
+  });
+
+  it("return false if YAML is not valid", () => {
+    const invalidYaml = `- label: A
+start: 1707
+end: 1714`;
+    expect(isYamlValid(invalidYaml)).toEqual(false);
+  });
+
+  it("return false if YAML doesn't meet schema", () => {
+    const noEndYaml = `- label: A
+  start: 1707`;
+    expect(isYamlValid(noEndYaml)).toEqual(false);
+
+    const noStartYaml = `- label: A
+  end: 1714`;
+    expect(isYamlValid(noStartYaml)).toEqual(false);
+
+    const noLabelYaml = `- start: 1707
+  end: 1714`;
+    expect(isYamlValid(noLabelYaml)).toEqual(false);
   });
 });

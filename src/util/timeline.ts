@@ -1,3 +1,6 @@
+import yaml from "js-yaml";
+import Ajv from "ajv";
+
 export type TimelineItem = {
   label: string;
   start: number;
@@ -35,4 +38,39 @@ export const sortTimeline = (
     default:
       return timelineItems;
   }
+};
+
+const timelineItemSchema = {
+  type: "object",
+  properties: {
+    label: { type: "string" },
+    start: { type: "number" },
+    end: { type: "number" },
+  },
+  required: ["label", "start", "end"],
+  additionalProperties: false,
+};
+
+const timelineSchema = {
+  type: "array",
+  items: timelineItemSchema,
+};
+
+export const isYamlValid = (value: string): boolean => {
+  const ajv = new Ajv();
+
+  let inputYaml;
+  try {
+    inputYaml = yaml.load(value);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+  const validate = ajv.compile(timelineSchema);
+  const valid = validate(inputYaml);
+  if (!valid) {
+    console.error(validate.errors);
+    return false;
+  }
+  return true;
 };
