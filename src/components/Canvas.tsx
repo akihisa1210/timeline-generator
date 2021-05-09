@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
 import yaml from "js-yaml";
-import { TimelineItem, TimelineSort, TimelineState } from "timeline";
+import { TimelineItem, TimelineSort, TimelineState } from "util/timeline";
 
 type Props = {
   timelineState: TimelineState;

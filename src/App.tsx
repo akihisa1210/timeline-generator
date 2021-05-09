@@ -2,7 +2,7 @@ import React, { FC, useState, ChangeEvent } from "react";
 import Canvas from "components/Canvas";
 import yaml from "js-yaml";
 import Ajv from "ajv";
-import { TimelineState, TimelineSort } from "timeline";
+import { TimelineState, TimelineSort } from "util/timeline";
 import SortButton from "components/SortButton";
 
 const App: FC = () => {
