@@ -2,30 +2,10 @@ import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
 import yaml from "js-yaml";
-import { TimelineItem, TimelineSort, TimelineState } from "util/timeline";
+import { TimelineItem, TimelineState, sortTimeline } from "util/timeline";
 
 type Props = {
   timelineState: TimelineState;
-};
-
-const sortTimeline = (
-  timelineItems: TimelineItem[],
-  option: TimelineSort
-): TimelineItem[] => {
-  switch (option) {
-    case "start ASC":
-      return timelineItems.sort((a, b) => (a.start <= b.start ? -1 : 1));
-    case "start DESC":
-      return timelineItems.sort((a, b) => (a.start <= b.start ? 1 : -1));
-    case "end ASC":
-      return timelineItems.sort((a, b) => (a.end <= b.end ? -1 : 1));
-    case "end DESC":
-      return timelineItems.sort((a, b) => (a.end <= b.end ? 1 : -1));
-    case "default":
-      return timelineItems;
-    default:
-      return timelineItems;
-  }
 };
 
 const Canvas: FC<Props> = ({ timelineState }) => {
