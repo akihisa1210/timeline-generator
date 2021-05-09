@@ -2,7 +2,8 @@ import React, { FC, useState, ChangeEvent } from "react";
 import Canvas from "components/Canvas";
 import yaml from "js-yaml";
 import Ajv from "ajv";
-import { TimelineState } from "timeline";
+import { TimelineState, TimelineSort } from "timeline";
+import SortButton from "components/SortButton";
 
 const App: FC = () => {
   const [value, setValue] = useState<TimelineState>({
@@ -36,6 +37,13 @@ const App: FC = () => {
       ...value,
       timelineInput: event.target.value,
       isInputValid: isYamlValid(event.target.value),
+    });
+  };
+
+  const handleSort = (option: TimelineSort) => {
+    setValue({
+      ...value,
+      sort: option,
     });
   };
 
@@ -81,6 +89,26 @@ const App: FC = () => {
           Timeline Generator
         </div>
       </nav>
+      <SortButton
+        label="Default"
+        clickHandler={() => handleSort("default")}
+      ></SortButton>
+      <SortButton
+        label="start ASC"
+        clickHandler={() => handleSort("start ASC")}
+      ></SortButton>
+      <SortButton
+        label="start DESC"
+        clickHandler={() => handleSort("start DESC")}
+      ></SortButton>
+      <SortButton
+        label="end ASC"
+        clickHandler={() => handleSort("end ASC")}
+      ></SortButton>
+      <SortButton
+        label="end DESC"
+        clickHandler={() => handleSort("end DESC")}
+      ></SortButton>
       <div className="container w-full mx-auto">
         <div className="flex">
           <div className="w-1/2">
