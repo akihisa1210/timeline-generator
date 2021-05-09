@@ -3,3 +3,7 @@ export type timelineItem = {
   start: number;
   end: number;
 };
+
+export type TimelineState = {
+  timelineInput: string;
+};

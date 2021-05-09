@@ -2,9 +2,11 @@ import React, { FC, useState, ChangeEvent } from "react";
 import Canvas from "components/Canvas";
 import yaml from "js-yaml";
 import Ajv from "ajv";
+import { TimelineState } from "timeline";
 
 const App: FC = () => {
-  const [value, setValue] = useState(`- label: アン（スチュアート朝）
+  const [value, setValue] = useState<TimelineState>({
+    timelineInput: `- label: アン（スチュアート朝）
   start: 1707
   end: 1714
 - label: ジョージ1世（ハノーヴァー朝）
@@ -24,10 +26,11 @@ const App: FC = () => {
   end: 1837
 - label: ヴィクトリア（ハノーヴァー朝）
   start: 1837
-  end: 1901`);
+  end: 1901`,
+  });
 
   const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+    setValue({ timelineInput: event.target.value });
   };
 
   const ajv = new Ajv();
@@ -65,7 +68,7 @@ const App: FC = () => {
     return true;
   };
 
-  if (isYamlValid(value)) {
+  if (isYamlValid(value.timelineInput)) {
     return (
       <>
         <nav id="header" className="bg-gray-800">
@@ -77,13 +80,13 @@ const App: FC = () => {
           <div className="flex">
             <div className="w-1/2">
               <textarea
-                value={value}
+                value={value.timelineInput}
                 onChange={handleCange}
                 className="font-mono h-full w-full"
               ></textarea>
             </div>
             <div className="w-1/2">
-              <Canvas text={value} />
+              <Canvas text={value.timelineInput} />
             </div>
           </div>
         </div>
@@ -94,7 +97,7 @@ const App: FC = () => {
       <div className="flex">
         <div className="w-1/2">
           <textarea
-            value={value}
+            value={value.timelineInput}
             onChange={handleCange}
             className="font-mono h-60 w-60"
           ></textarea>
