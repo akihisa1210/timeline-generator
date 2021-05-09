@@ -2,17 +2,20 @@ import React, { FC } from "react";
 import p5 from "p5";
 import Sketch from "react-p5";
 import yaml from "js-yaml";
-import { timelineItem } from "timeline";
+import { TimelineItem, TimelineState, sortTimeline } from "util/timeline";
 
 type Props = {
-  text: string;
+  timelineState: TimelineState;
 };
 
-const Canvas: FC<Props> = ({ text }) => {
+const Canvas: FC<Props> = ({ timelineState }) => {
+  if (!timelineState.isInputValid) {
+    return <div></div>;
+  }
   const width = 640;
   const height = 640;
 
-  const timeline = yaml.load(text) as timelineItem[];
+  const timeline = yaml.load(timelineState.timelineInput) as TimelineItem[];
   console.log(timeline); // debug
 
   const setup = (p: p5, canvasParentRef: Element) => {
@@ -38,7 +41,9 @@ const Canvas: FC<Props> = ({ text }) => {
     p.clear();
     p.background(240);
 
-    timeline.forEach((item, index) => {
+    const sortedTimeline = sortTimeline(timeline, timelineState.sort);
+
+    sortedTimeline.forEach((item, index) => {
       const y = 30 + index * 30;
       const start = p.map(
         item.start,

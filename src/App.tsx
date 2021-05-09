@@ -1,10 +1,11 @@
 import React, { FC, useState, ChangeEvent } from "react";
 import Canvas from "components/Canvas";
-import yaml from "js-yaml";
-import Ajv from "ajv";
+import { TimelineState, TimelineSort, isYamlValid } from "util/timeline";
+import SortButton from "components/SortButton";
 
 const App: FC = () => {
-  const [value, setValue] = useState(`- label: アン（スチュアート朝）
+  const [value, setValue] = useState<TimelineState>({
+    timelineInput: `- label: アン（スチュアート朝）
   start: 1707
   end: 1714
 - label: ジョージ1世（ハノーヴァー朝）
@@ -24,85 +25,69 @@ const App: FC = () => {
   end: 1837
 - label: ヴィクトリア（ハノーヴァー朝）
   start: 1837
-  end: 1901`);
+  end: 1901`,
+    isInputValid: true,
+    sort: "default",
+  });
 
   const handleCange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+    setValue({
+      ...value,
+      timelineInput: event.target.value,
+      isInputValid: isYamlValid(event.target.value),
+    });
   };
 
-  const ajv = new Ajv();
-
-  const timelineItemSchema = {
-    type: "object",
-    properties: {
-      label: { type: "string" },
-      start: { type: "number" },
-      end: { type: "number" },
-    },
-    required: ["label", "start", "end"],
-    additionalProperties: false,
+  const handleSort = (option: TimelineSort) => {
+    setValue({
+      ...value,
+      sort: option,
+    });
   };
 
-  const timelineSchema = {
-    type: "array",
-    items: timelineItemSchema,
-  };
-
-  const isYamlValid = (value: string): boolean => {
-    let inputYaml;
-    try {
-      inputYaml = yaml.load(value);
-    } catch (e) {
-      console.error(e);
-      return false;
-    }
-    const validate = ajv.compile(timelineSchema);
-    const valid = validate(inputYaml);
-    if (!valid) {
-      console.error(validate.errors);
-      return false;
-    }
-    return true;
-  };
-
-  if (isYamlValid(value)) {
-    return (
-      <>
-        <nav id="header" className="bg-gray-800">
-          <div className="text-gray-100 font-bold text-xl pl-10 py-2">
-            Timeline Generator
+  return (
+    <>
+      <nav id="header" className="bg-gray-800">
+        <div className="text-gray-100 font-bold text-xl pl-10 py-2">
+          Timeline Generator
+        </div>
+      </nav>
+      <SortButton
+        label="Default"
+        clickHandler={() => handleSort("default")}
+      ></SortButton>
+      <SortButton
+        label="start ASC"
+        clickHandler={() => handleSort("start ASC")}
+      ></SortButton>
+      <SortButton
+        label="start DESC"
+        clickHandler={() => handleSort("start DESC")}
+      ></SortButton>
+      <SortButton
+        label="end ASC"
+        clickHandler={() => handleSort("end ASC")}
+      ></SortButton>
+      <SortButton
+        label="end DESC"
+        clickHandler={() => handleSort("end DESC")}
+      ></SortButton>
+      <div className="container w-full mx-auto">
+        <div className="flex">
+          <div className="w-1/2">
+            <textarea
+              value={value.timelineInput}
+              onChange={handleCange}
+              className="font-mono h-full w-full"
+            ></textarea>
           </div>
-        </nav>
-        <div className="container w-full mx-auto">
-          <div className="flex">
-            <div className="w-1/2">
-              <textarea
-                value={value}
-                onChange={handleCange}
-                className="font-mono h-full w-full"
-              ></textarea>
-            </div>
-            <div className="w-1/2">
-              <Canvas text={value} />
-            </div>
+          <div className="w-1/2">
+            <Canvas timelineState={value} />
           </div>
         </div>
-      </>
-    );
-  } else {
-    return (
-      <div className="flex">
-        <div className="w-1/2">
-          <textarea
-            value={value}
-            onChange={handleCange}
-            className="font-mono h-60 w-60"
-          ></textarea>
-        </div>
-        <div className="w-1/2"></div>
       </div>
-    );
-  }
+    </>
+  );
 };
 
 export default App;
