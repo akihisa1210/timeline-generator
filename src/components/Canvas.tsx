@@ -30,16 +30,28 @@ const Canvas: FC<Props> = ({ timelineState }) => {
     start: number,
     end: number
   ) => {
-    p.textAlign(p.LEFT, p.BOTTOM);
-    p.text(item.label, start, y);
+    if (start === end) {
+      p.textAlign(p.CENTER, p.BOTTOM);
+      p.text(item.label, start, y);
 
-    p.textAlign(p.RIGHT, p.TOP);
-    p.text(item.start, start, y);
+      p.textAlign(p.CENTER, p.TOP);
+      p.text(item.start, start, y);
 
-    p.textAlign(p.LEFT, p.TOP);
-    p.text(item.end, end, y);
+      p.strokeWeight(2);
+      p.point(start, y);
+    } else {
+      p.textAlign(p.LEFT, p.BOTTOM);
+      p.text(item.label, start, y);
 
-    p.line(start, y, end, y);
+      p.textAlign(p.RIGHT, p.TOP);
+      p.text(item.start, start, y);
+
+      p.textAlign(p.LEFT, p.TOP);
+      p.text(item.end, end, y);
+
+      p.strokeWeight(1);
+      p.line(start, y, end, y);
+    }
   };
 
   const draw = (p: p5) => {
