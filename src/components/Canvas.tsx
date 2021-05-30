@@ -60,9 +60,15 @@ const Canvas: FC<Props> = ({ timelineState }) => {
         width - 50
       );
       console.log(item.label, start, end); // debug
-      p.text(item.label, start, y - 5);
-      p.text(item.start, start, y + 10);
-      p.text(item.end, end, y + 10);
+      p.textAlign(p.LEFT, p.BOTTOM);
+      p.text(item.label, start, y);
+
+      p.textAlign(p.RIGHT, p.TOP);
+      p.text(item.start, start, y);
+
+      p.textAlign(p.LEFT, p.TOP);
+      p.text(item.end, end, y);
+
       p.line(start, y, end, y);
     });
   };
