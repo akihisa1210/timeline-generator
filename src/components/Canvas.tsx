@@ -23,6 +23,25 @@ const Canvas: FC<Props> = ({ timelineState }) => {
     p.smooth();
   };
 
+  const drawTimeline = (
+    p: p5,
+    item: TimelineItem,
+    y: number,
+    start: number,
+    end: number
+  ) => {
+    p.textAlign(p.LEFT, p.BOTTOM);
+    p.text(item.label, start, y);
+
+    p.textAlign(p.RIGHT, p.TOP);
+    p.text(item.start, start, y);
+
+    p.textAlign(p.LEFT, p.TOP);
+    p.text(item.end, end, y);
+
+    p.line(start, y, end, y);
+  };
+
   const draw = (p: p5) => {
     const minStartItem = timeline.reduce((a, b) => {
       if (a.start <= b.start) {
@@ -59,17 +78,7 @@ const Canvas: FC<Props> = ({ timelineState }) => {
         50,
         width - 50
       );
-      console.log(item.label, start, end); // debug
-      p.textAlign(p.LEFT, p.BOTTOM);
-      p.text(item.label, start, y);
-
-      p.textAlign(p.RIGHT, p.TOP);
-      p.text(item.start, start, y);
-
-      p.textAlign(p.LEFT, p.TOP);
-      p.text(item.end, end, y);
-
-      p.line(start, y, end, y);
+      drawTimeline(p, item, y, start, end);
     });
   };
 
